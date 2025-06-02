@@ -6,8 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>${pageTitle }</title>
+
+<!-- 기본 스타일 및 플러그인 -->
 <link rel="stylesheet" href="/resource/common.css" />
 <script src="/resource/common.js" defer="defer"></script>
+
 <!-- 제이쿼리 -->
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -15,40 +18,79 @@
 <!-- 폰트어썸 -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<!-- 폰트어썸 FREE 아이콘 리스트 : https://fontawesome.com/v5.15/icons?d=gallery&p=2&m=free -->
 
 <!-- 테일윈드 -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.1.4/tailwind.min.css">
-<!-- 테일윈드 치트시트 : https://nerdcave.com/tailwind-cheat-sheet -->
 
 <!-- 데이지 UI -->
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/daisyui/4.12.23/full.css" />
-</head>
-<body>
 
-	<header>
-		<div class="flex h-20 mx-auto items-center text-3xl">
-			<a href="/">LOGO</a>
-			<div class="flex-grow"></div>
-			<ul class="flex">
-				<li><a class="hover:underline" href="/">HOME</a></li>
-				<li><a class="hover:underline" href="../article/list">LIST</a>
-				</li>
+<style>
+.dropdown-menu {
+	display: block;
+}
+
+.hidden {
+	display: none;
+}
+</style>
+</head>
+<body style="background-color: #e6eef8;"
+	class="bg-gray-50 text-gray-800">
+
+	<header class="bg-white shadow-md">
+		<div
+			class="container mx-auto px-4 h-20 flex items-center justify-between">
+			<a href="/" class="text-3xl font-bold text-gray-800">LOGO</a>
+			<ul class="flex space-x-6 text-lg font-medium">
+				<li><a class="hover:text-blue-600 transition" href="/">HOME</a></li>
+				<li class="relative"><a
+					class="hover:text-blue-600 cursor-pointer list-toggle">LIST</a>
+					<ul
+						class="dropdown-menu hidden absolute bg-white text-black border mt-2 px-4 py-2 shadow-lg z-50 whitespace-nowrap rounded">
+						<li><a href="/usr/article/list?boardId=1"
+							class="block py-1 hover:text-blue-600">공지사항</a></li>
+						<li><a href="/usr/article/list?boardId=2"
+							class="block py-1 hover:text-blue-600">자유</a></li>
+						<li><a href="/usr/article/list?boardId=3"
+							class="block py-1 hover:text-blue-600">QnA</a></li>
+					</ul></li>
+
 				<c:if test="${!rq.isLogined() }">
-					<li><a class="hover:underline" href="../member/login">LOGIN</a>
-					</li>
-					<li><a class="hover:underline" href="../member/join">JOIN</a>
-					</li>
+					<li><a class="hover:text-blue-600" href="../member/login">LOGIN</a></li>
+					<li><a class="hover:text-blue-600" href="../member/join">JOIN</a></li>
 				</c:if>
 				<c:if test="${rq.isLogined() }">
-					<li><a class="hover:underline" href="../article/write">WRITE</a>
-					</li>
-					<li><a
-						onclick="if(confirm('로그아웃 하시겠습니까?') == false) return false;"
-						class="hover:underline" href="../member/doLogout">LOGOUT</a></li>
+					<li><a class="hover:text-blue-600" href="../article/write">WRITE</a></li>
+					<li><a onclick="if(!confirm('로그아웃 하시겠습니까?')) return false;"
+						class="hover:text-red-600" href="../member/doLogout">LOGOUT</a></li>
 				</c:if>
 			</ul>
 		</div>
 	</header>
+
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const listToggle = document.querySelector('.list-toggle');
+			const dropdown = document.querySelector('.dropdown-menu');
+
+			// 드롭다운 상태 토글
+			listToggle.addEventListener('click', function(e) {
+				e.stopPropagation(); // 이벤트 전파 방지
+				dropdown.classList.toggle('hidden');
+			});
+
+			// 외부 클릭 시 닫기
+			document.addEventListener('click', function() {
+				dropdown.classList.add('hidden');
+			});
+
+			// 드롭다운 안 클릭 시 닫히지 않게
+			dropdown.addEventListener('click', function(e) {
+				e.stopPropagation();
+			});
+		});
+	</script>

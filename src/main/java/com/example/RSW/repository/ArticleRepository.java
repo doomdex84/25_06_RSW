@@ -1,6 +1,7 @@
 package com.example.RSW.repository;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -27,4 +28,8 @@ public interface ArticleRepository {
 			String searchKeyword);
 
 	public int getArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword);
+
+		public List<Article> getForPrintArticles(Map<String, Object> param);
+
+	public int getArticleCount(Map<String, Object> param);
 }

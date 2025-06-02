@@ -1,6 +1,8 @@
 package com.example.RSW.service;
 
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -81,22 +83,13 @@ public class ArticleService {
 		return articleRepository.getArticles();
 	}
 
-	public List<Article> getForPrintArticles(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode,
-			String searchKeyword) {
-		// SELECT * FROM article WHERE boardId = 1 ORDER BY id DESC LIMIT 0, 10;
-		// --> 1page
-		// SELECT * FROM article WHERE boardId = 1 ORDER BY id DESC LIMIT 10, 10;
-		// --> 2page
+	public List<Article> getForPrintArticles(Map<String, Object> param) {
+		return articleRepository.getForPrintArticles(param);
 
-		int limitFrom = (page - 1) * itemsInAPage;
-		int limitTake = itemsInAPage;
-
-		return articleRepository.getForPrintArticles(boardId, limitFrom, limitTake, searchKeywordTypeCode,
-				searchKeyword);
 	}
 
-	public int getArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword) {
-		return articleRepository.getArticleCount(boardId, searchKeywordTypeCode, searchKeyword);
+	public int getArticleCount(Map<String, Object> param) {
+		return articleRepository.getArticleCount(param);
 	}
 
 }
