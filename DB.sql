@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS `25_06_Spring`;
-CREATE DATABASE `25_06_Spring`;
-USE `25_06_Spring`;
+DROP DATABASE IF EXISTS `25_06_RSW`;
+CREATE DATABASE `25_06_RSW`;
+USE `25_06_RSW`;
 
 # 게시글 테이블 생성
 CREATE TABLE article (
@@ -17,14 +17,14 @@ CREATE TABLE `member` (
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
 	loginId CHAR(30) NOT NULL,
-	loginPw char(100) NOT NULL,
-	`authLevel` smallint(2) unsigned default 3 comment '권한 레벨 (3=일반,7=관리자)', 
-	`name` char(20) NOT NULL,
-	nickname char(20) NOT NULL,
-	cellphoneNum char(20) NOT NULL,
-	email char(20) NOT NULL,
-	delStatus tinyint(1) unsigned not null default 0 comment '탈퇴 여부 (0=탈퇴 전, 1=탈퇴 후)',
-	delDate datetime comment '탈퇴 날짜'
+	loginPw CHAR(100) NOT NULL,
+	`authLevel` SMALLINT(2) UNSIGNED DEFAULT 3 COMMENT '권한 레벨 (3=일반,7=관리자)', 
+	`name` CHAR(20) NOT NULL,
+	nickname CHAR(20) NOT NULL,
+	cellphoneNum CHAR(20) NOT NULL,
+	email CHAR(20) NOT NULL,
+	delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '탈퇴 여부 (0=탈퇴 전, 1=탈퇴 후)',
+	delDate DATETIME COMMENT '탈퇴 날짜'
 );
 
 
@@ -33,7 +33,7 @@ CREATE TABLE board (
 	id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
 	updateDate DATETIME NOT NULL,
-	`code` CHAR(50) NOT NULL unique comment 'notice(공지사항) free(자유) QnA(질의응답)...',
+	`code` CHAR(50) NOT NULL UNIQUE COMMENT 'notice(공지사항) free(자유) QnA(질의응답)...',
 	`name` CHAR(20) NOT NULL UNIQUE COMMENT '게시판 이름',
 	delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '삭제 여부 (0=삭제 전, 1=삭제 후)',
 	delDate DATETIME COMMENT '삭제 날짜'
@@ -125,26 +125,26 @@ cellphoneNum = '01056785678',
 email = 'abcde@gmail.com';
 
 # memberId 추가
-alter table article add column memberId int(10) unsigned not null after updateDate;
+ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER updateDate;
 
-update article 
-set memberId = 2
-where id in (1,2);
+UPDATE article 
+SET memberId = 2
+WHERE id IN (1,2);
 
 UPDATE article 
 SET memberId = 3
-WHERE id in (3,4,5);
+WHERE id IN (3,4,5);
 
 # boardId 추가
-alter table article add column boardId int(10) not null after `memberId`;
+ALTER TABLE article ADD COLUMN boardId INT(10) NOT NULL AFTER `memberId`;
 
 UPDATE article 
 SET boardId = 1
-WHERE id in (1,2);
+WHERE id IN (1,2);
 
 UPDATE article 
 SET boardId = 2
-WHERE id in (3,4);
+WHERE id IN (3,4);
 
 UPDATE article 
 SET boardId = 3
@@ -172,12 +172,12 @@ INSERT INTO article
 	( 
 		regDate, updateDate, memberId, boardId, title, `body`
 	)
-select now(), now(), floor(RAND() * 2) + 2, floor(RAND() * 3) + 1, concat('제목__',rand()), concat('내용__',rand())
-from article;
+SELECT NOW(), NOW(), FLOOR(RAND() * 2) + 2, FLOOR(RAND() * 3) + 1, CONCAT('제목__',RAND()), CONCAT('내용__',RAND())
+FROM article;
 
-select floor(RAND() * 2) + 2;
+SELECT FLOOR(RAND() * 2) + 2;
 
-select floor(RAND() * 3) + 1;
+SELECT FLOOR(RAND() * 3) + 1;
 
 SELECT *
 		FROM board
@@ -197,19 +197,19 @@ SELECT *
 
 SELECT LAST_INSERT_ID();
 
-delete from article where id = 4;
+DELETE FROM article WHERE id = 4;
 
-select * from `member`
-where loginId = 'test4'
+SELECT * FROM `member`
+WHERE loginId = 'test4'
 
-select ceiling(RAND() * 3);
+SELECT CEILING(RAND() * 3);
 
 # 게시글 데이터 대량 생성
 INSERT INTO article
 SET regDate = NOW(),
-memberId = ceiling(RAND() * 3),
-title = CONCAT('제목__', rand()),
-`body` = CONCAT('내용__',rand());
+memberId = CEILING(RAND() * 3),
+title = CONCAT('제목__', RAND()),
+`body` = CONCAT('내용__',RAND());
 
 # 회원 데이터 대량 생성
 INSERT INTO `member`

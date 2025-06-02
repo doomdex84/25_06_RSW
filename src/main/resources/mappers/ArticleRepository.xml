@@ -56,9 +56,11 @@
 					'%')
 				</when>
 				<otherwise>
-					AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+					AND (
+					A.title LIKE CONCAT('%', #{searchKeyword}, '%')
 					OR
 					A.`body` LIKE CONCAT('%', #{searchKeyword}, '%')
+					)
 				</otherwise>
 			</choose>
 		</if>
@@ -110,9 +112,11 @@
 					'%')
 				</when>
 				<otherwise>
-					AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+					AND (
+					A.title LIKE CONCAT('%', #{searchKeyword}, '%')
 					OR
 					A.`body` LIKE CONCAT('%', #{searchKeyword}, '%')
+					)
 				</otherwise>
 			</choose>
 		</if>
